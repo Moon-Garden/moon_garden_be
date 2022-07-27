@@ -33,20 +33,19 @@ gem 'figaro'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'jsonapi-serializer'
   gem 'pry'
   gem 'simplecov'
-  gem 'faker'
-  gem 'factory_bot_rails'
-  gem 'jsonapi-serializer'
 end
 group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'rspec-rails'
-  gem 'simplecov'
+  gem 'shoulda-matchers'
   gem 'vcr'
   gem 'webmock'
-  gem 'shoulda-matchers'
 end
 
 group :development do
