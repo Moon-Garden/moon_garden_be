@@ -3,9 +3,11 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    # @users = User.all
+    #
+    # render json: UserSerializer.new(@users)
 
-    render json: UserSerializer.new(@users)
+    render json: 'HI'
   end
 
   # GET /users/1
@@ -15,6 +17,7 @@ class Api::V1::UsersController < ApplicationController
 
   # POST /users
   def create
+    binding.pry
     @user = User.new(user_params)
 
     if @user.save
