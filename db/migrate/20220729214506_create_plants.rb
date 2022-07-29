@@ -9,7 +9,7 @@ class CreatePlants < ActiveRecord::Migration[5.2]
       t.integer :bounty_amount
       t.text :pruning_behaviors
       t.text :notes
-      t.references :garden_id, foreign_key: true
+      t.references :garden, foreign_key: true
 
       t.timestamps
     end
