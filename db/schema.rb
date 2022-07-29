@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2022_07_29_174019) do
 
   create_table "gardens", force: :cascade do |t|
     t.string "name"
-    t.string "cardinal_direction"
+    t.integer "cardinal_direction"
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
