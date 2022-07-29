@@ -115,4 +115,11 @@ RSpec.describe 'Users API' do
       expect(user).to_not have_key :updated_at
     end
   end
+  describe 'sad path' do
+    it '#show' do
+      get '/api/v1/users/1'
+
+      expect(response).to_not be_successful
+    end
+  end
 end
