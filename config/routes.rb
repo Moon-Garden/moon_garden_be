@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get '/blah', to: 'users#index'
       post '/find_or_create_user', to: 'users#find_or_create_user'
+      resources :gardens
     end
   end
 
