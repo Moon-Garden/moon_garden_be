@@ -4,15 +4,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def find_or_create_user
-    google_data = JSON.parse(params['_json'], symbolize_names: true)
-
-    @user = User.find_or_create_by(email: google_data[:email]) do |user|
-      user.name = google_data[:name]
-      user.email = google_data[:email]
-      user.image = google_data[:image]
-    end
-
-    render json: UserSerializer.new(@user)
+    render json: UserSerializer.new(User.google_user(params))
   end
 
   def show
