@@ -1,5 +1,5 @@
 class Api::V1::PlantsController < ApplicationController
-  before_action :set_plant, only: [:show, :update, :destroy]
+  before_action :set_plant, only: %i[show update destroy]
 
   # GET /plants
   def index
@@ -15,10 +15,9 @@ class Api::V1::PlantsController < ApplicationController
 
   # POST /plants
   def create
-    @plant = Plant.new({ name: params[:plant][:name], 
+    @plant = Plant.new({ name: params[:plant][:name],
                          plant_id: params[:plant][:plant_id],
-                         garden_id: params[:garden_id]
-     })
+                         garden_id: params[:garden_id] })
 
     if @plant.save
       render json: PlantSerializer.new(@plant)
@@ -42,13 +41,14 @@ class Api::V1::PlantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_plant
-      @plant = Plant.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def plant_params
-      params.require(:plant).permit(:name, :plant_id, :date_planted, :moon_phase, :date_matured, :bounty_amount, :pruning_behaviors, :notes, :garden_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_plant
+    @plant = Plant.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def plant_params
+    JSON.parse(params['_json'], symbolize_names: true)
+  end
 end
