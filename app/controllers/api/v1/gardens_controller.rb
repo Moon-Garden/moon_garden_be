@@ -2,15 +2,15 @@ class Api::V1::GardensController < ApplicationController
   before_action :set_garden, only: [:show, :update, :destroy]
 
   # GET /gardens
-  def index
-    @gardens = Garden.all
+  # def index
+  #   @gardens = Garden.all
 
-    render json: @gardens
-  end
+  #   render json: @gardens
+  # end
 
   # GET /gardens/1
   def show
-    render json: @garden
+    render json: GardenSerializer.new(@garden)
   end
 
   # POST /gardens
@@ -18,16 +18,16 @@ class Api::V1::GardensController < ApplicationController
     @garden = Garden.new(garden_params)
     
     if @garden.save
-      render json: GardenSerializer.new(@garden)
+      render json: GardenSerializer.new(@garden), status: :created
     else
-      render json: @garden.errors, status: :unprocessable_entity
+      render status: 404
     end
   end
 
   # PATCH/PUT /gardens/1
   def update
     if @garden.update(garden_params)
-      render json: @garden
+      render json: GardenSerializer.new(@garden)
     else
       render json: @garden.errors, status: :unprocessable_entity
     end
@@ -35,7 +35,11 @@ class Api::V1::GardensController < ApplicationController
 
   # DELETE /gardens/1
   def destroy
-    @garden.destroy
+    if Garden.exists?(params[:id])
+      Garden.destroy(params[:id])
+    else
+      render status: 404
+    end
   end
 
   private
