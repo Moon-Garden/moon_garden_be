@@ -6,6 +6,7 @@ class Api::V1::GardensController < ApplicationController
 
     render json: GardenSerializer.new(gardens)
   end
+
   # GET /gardens/1
   def show
     if Garden.exists?(params[:id])
@@ -14,17 +15,18 @@ class Api::V1::GardensController < ApplicationController
       render status: 404
     end
   end
-  
+
   # POST /gardens
   def create
     @garden = Garden.new(garden_params)
     if @garden.save
+
       render json: GardenSerializer.new(@garden), status: :created
     else
       render status: 404
     end
   end
-  
+
   # PATCH/PUT /gardens/1
   def update
     if Garden.exists?(params[:id])
@@ -38,7 +40,7 @@ class Api::V1::GardensController < ApplicationController
       render status: 404
     end
   end
-  
+
   # DELETE /gardens/1
   def destroy
     if Garden.exists?(params[:id])
@@ -47,9 +49,8 @@ class Api::V1::GardensController < ApplicationController
       render status: 404
     end
   end
-  
-  private
-    def garden_params
-      params.require(:garden).permit(:name, :cardinal_direction, :notes, :user_id)
-    end
+
+  def garden_params
+    JSON.parse(params['_json'], symbolize_names: true)
+  end
 end
