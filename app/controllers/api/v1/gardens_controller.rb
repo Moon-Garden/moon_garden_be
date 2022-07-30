@@ -26,10 +26,15 @@ class Api::V1::GardensController < ApplicationController
 
   # PATCH/PUT /gardens/1
   def update
-    if @garden.update(garden_params)
-      render json: GardenSerializer.new(@garden)
+    if Garden.exists?(params[:id])
+      garden = Garden.update(params[:id], garden_params)
+      if garden.save
+        render json: GardenSerializer.new(garden)
+      else
+        render status: 404
+      end
     else
-      render json: @garden.errors, status: :unprocessable_entity
+      render status: 404
     end
   end
 
