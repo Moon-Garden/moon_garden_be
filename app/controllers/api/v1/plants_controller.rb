@@ -1,4 +1,4 @@
-class PlantsController < ApplicationController
+class Api::V1::PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :update, :destroy]
 
   # GET /plants
@@ -15,7 +15,10 @@ class PlantsController < ApplicationController
 
   # POST /plants
   def create
-    @plant = Plant.new(plant_params)
+    @plant = Plant.new({ name: params[:plant][:name], 
+                         plant_id: params[:plant][:plant_id],
+                         garden_id: params[:garden_id]
+     })
 
     if @plant.save
       render json: PlantSerializer.new(@plant)

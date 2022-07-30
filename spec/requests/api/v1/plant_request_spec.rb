@@ -5,14 +5,15 @@ RSpec.describe 'Plants API' do
     let!(:user_1) {create :user}
     let!(:user_2) {create :user}
     let!(:gardens) { create_list :garden, 2, { user_id: user_1.id } }
-    let!(:plants) { create_list :garden, 4, { garden_id: gardens[0].id } }
+    let!(:plants) { create_list(:plant, 4, garden_id: gardens[0].id) }
+
     it 'returns all plants' do
       get "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants"
 
       expect(response).to be_successful
 
       rb = JSON.parse(response.body, symbolize_names: true)
-      plants = tb[:data]
+      plants = rb[:data]
 
       expect(plants).to be_an Array
       expect(plants.count).to eq(4)
@@ -50,7 +51,7 @@ RSpec.describe 'Plants API' do
     end
 
     it 'can create a new plant' do
-      plant_api_info = ( { 
+      plant_api_info = ({ 
                         name: 'Basil',
                         plant_id: 'awehfh9832y5r334hi'
        } )
@@ -60,8 +61,8 @@ RSpec.describe 'Plants API' do
       created_plant = Plant.last
 
       expect(response).to be_successful
-      expect(created_plant.name).to eq(item_params[:name])
-      expect(created_plant.plant_id).to eq(item_params[:plant_id])
+      expect(created_plant.name).to eq(plant_api_info[:name])
+      expect(created_plant.plant_id).to eq(plant_api_info[:plant_id])
     end
 
     it 'can update and existing plant' do
@@ -74,11 +75,11 @@ RSpec.describe 'Plants API' do
       plant = Plant.find_by(id: id)
       expect(response).to be_successful
       expect(plant.name).to_not eq(previous_name)
-      expect(plant.name).to eq("Charlotte's Web")
+      expect(plant.name).to eq("Dingleberry")
     end
 
     it "can destroy an plant" do
-      plant = create(:plant)
+      plant = create(:plant, garden_id: gardens[0].id)
 
       expect(Plant.count).to eq(5)
 

@@ -8,6 +8,5 @@ FactoryBot.define do
     bounty_amount {Faker::Number.number(digits: 2)}
     pruning_behaviors {Faker::Lorem.sentence}
     notes {Faker::Lorem.sentence}
-    #garden_id {1}
   end
 end

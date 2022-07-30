@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :gardens
+  
   def self.google_user(params)
     google_data = JSON.parse(params['_json'], symbolize_names: true)
 
