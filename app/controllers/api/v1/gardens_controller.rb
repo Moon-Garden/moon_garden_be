@@ -1,4 +1,11 @@
 class Api::V1::GardensController < ApplicationController
+  # GET /users/user_id/gardens
+  def index
+    user = User.find(params[:user_id])
+    gardens = user.gardens
+
+    render json: GardenSerializer.new(gardens)
+  end
   # GET /gardens/1
   def show
     if Garden.exists?(params[:id])
