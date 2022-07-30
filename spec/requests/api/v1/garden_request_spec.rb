@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Users API' do
+RSpec.describe 'Garden API' do
   describe 'happy path' do
     it 'creates a garden' do
       user = create(:user)
@@ -127,6 +127,58 @@ RSpec.describe 'Users API' do
 
       expect{ delete "/api/v1/gardens/#{garden.id}" }.to change(Garden, :count).by(-1)
       expect{Garden.find(garden.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe 'sad path' do
+    it 'response will be unsuccessful if attribute is missing' do
+      user = create(:user)
+      garden_json = 
+        {
+          "user_id": user.id,
+          "name": "value1",
+          "notes": "value2"
+        }
+      headers = { 'CONTENT_TYPE' => 'application/json' }
+
+      post '/api/v1/gardens', headers: headers, params: JSON.generate(garden_json)
+
+      expect(response).to_not be_successful
+    end
+
+    it 'response will be unsuccessful if item does not exist' do
+      get '/api/v1/gardens/999999999'
+
+      expect(response).to_not be_successful
+    end
+
+    it 'response will be unsuccessful if parameter is invalid' do
+      user = create(:user)
+      garden = create(:garden, user_id: user.id)
+      garden_json = {
+        user_id: 123123123123123123123123123
+                    }
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      patch "/api/v1/gardens/#{garden.id}", headers: headers, params: JSON.generate(garden_json)
+      expect(response).to_not be_successful
+    end
+
+    it 'response will be unsuccessful if garden does not exist' do
+      delete "/api/v1/gardens/999999999"
+      expect(response).to_not be_successful
+    end
+
+    it 'response will be unsuccessful if garden does not exist' do
+      garden_json = {
+        name: 'Garden of Eden',
+        cardinal_direction: 'West',
+        notes: 'These are notes.'
+      }
+      headers = {"CONTENT_TYPE" => "application/json"}
+      
+      patch "/api/v1/gardens/1", headers: headers, params: JSON.generate(garden_json)
+      expect(response).to_not be_successful
     end
   end
 end
