@@ -15,8 +15,8 @@ class Api::V1::PlantsController < ApplicationController
 
   # POST /plants
   def create
-    @plant = Plant.new({ name: params[:plant][:name],
-                         plant_id: params[:plant][:plant_id],
+    @plant = Plant.new({ name: plant_params[:name],
+                         plant_id: plant_params[:plant_id],
                          garden_id: params[:garden_id] })
 
     if @plant.save
