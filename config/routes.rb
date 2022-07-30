@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get '/blah', to: 'users#index'
       post '/find_or_create_user', to: 'users#find_or_create_user'
       resources :gardens
+      resources :users, only: %i[show]
     end
   end
 
