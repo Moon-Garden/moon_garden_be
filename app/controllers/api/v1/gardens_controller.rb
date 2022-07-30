@@ -19,6 +19,7 @@ class Api::V1::GardensController < ApplicationController
   # POST /gardens
   def create
     @garden = Garden.new(garden_params)
+
     if @garden.save
 
       render json: GardenSerializer.new(@garden), status: :created

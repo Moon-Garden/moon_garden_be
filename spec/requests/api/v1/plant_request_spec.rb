@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Plants API' do
   describe 'happy path' do
-    let!(:user_1) {create :user}
-    let!(:user_2) {create :user}
+    let!(:user_1) { create :user }
+    let!(:user_2) { create :user }
     let!(:gardens) { create_list :garden, 2, { user_id: user_1.id } }
     let!(:plants) { create_list(:plant, 4, garden_id: gardens[0].id) }
 
@@ -51,12 +51,13 @@ RSpec.describe 'Plants API' do
     end
 
     it 'can create a new plant' do
-      plant_api_info = ({ 
-                        name: 'Basil',
-                        plant_id: 'awehfh9832y5r334hi'
-       } )
-      headers = {"CONTENT_TYPE" => "application/json"}
-      post   "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants", headers: headers, params: JSON.generate(plant: plant_api_info)
+      plant_api_info = {
+        name: 'Basil',
+        plant_id: 'awehfh9832y5r334hi'
+      }
+      headers = { 'CONTENT_TYPE' => 'application/json' }
+      post "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants", headers: headers,
+                                                                         params: JSON.generate(plant: plant_api_info)
 
       created_plant = Plant.last
 
@@ -65,20 +66,21 @@ RSpec.describe 'Plants API' do
       expect(created_plant.plant_id).to eq(plant_api_info[:plant_id])
     end
 
-    it 'can update and existing plant' do
+    it 'can update an existing plant' do
       id = plants[0].id
       previous_name = plants[0].name
-      plant_params = { name: 'Dingleberry' }
-      headers = {"CONTENT_TYPE" => "application/json"}
+      plant_params = '{"name":"Dingleberry"}'
+      headers = { 'CONTENT_TYPE' => 'application/json' }
 
-      patch "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants/#{id}", headers: headers, params: JSON.generate({plant: plant_params})
+      patch "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants/#{id}", headers: headers,
+                                                                                params: JSON.generate(plant_params)
       plant = Plant.find_by(id: id)
       expect(response).to be_successful
       expect(plant.name).to_not eq(previous_name)
-      expect(plant.name).to eq("Dingleberry")
+      expect(plant.name).to eq('Dingleberry')
     end
 
-    it "can destroy an plant" do
+    it 'can destroy an plant' do
       plant = create(:plant, garden_id: gardens[0].id)
 
       expect(Plant.count).to eq(5)
@@ -87,7 +89,7 @@ RSpec.describe 'Plants API' do
 
       expect(response).to be_successful
       expect(Plant.count).to eq(4)
-      expect{Plant.find(plant.id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { Plant.find(plant.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
