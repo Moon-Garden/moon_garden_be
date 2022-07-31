@@ -7,7 +7,7 @@ RSpec.describe 'Plants API' do
     let!(:gardens) { create_list :garden, 2, { user_id: user_1.id } }
     let!(:plants) { create_list(:plant, 4, garden_id: gardens[0].id) }
 
-    it 'returns all plants' do
+    it 'returns all of a gardens plants' do
       get "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants"
 
       expect(response).to be_successful
@@ -91,6 +91,49 @@ RSpec.describe 'Plants API' do
       expect(response).to be_successful
       expect(Plant.count).to eq(4)
       expect { Plant.find(plant.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe 'sad path' do
+    let!(:user_1) { create :user }
+    let!(:user_2) { create :user }
+    let!(:gardens) { create_list :garden, 2, { user_id: user_1.id } }
+    let!(:plants) { create_list(:plant, 4, garden_id: gardens[0].id) }
+
+    it 'can not create a plant without a name' do
+      user = create(:user, id: 1)
+      garden = create(:garden, user_id: user.id, id: 1)
+
+      plant_api_info = '{"user_id":"1","garden_id":"1","name":"","plant_id":"sae2340987dage"}'
+
+      headers = { 'CONTENT_TYPE' => 'application/json' }
+      post "/api/v1/users/#{user.id}/gardens/#{garden.id}/plants", headers: headers,
+                                                                         params: JSON.generate(plant_api_info)
+      expect(response).to_not be_successful
+    end
+
+    it 'can not create a plant without a plant_id' do
+      user = create(:user, id: 1)
+      garden = create(:garden, user_id: user.id, id: 1)
+
+      plant_api_info = '{"user_id":"1","garden_id":"1","name":"Carrot","plant_id":""}'
+
+      headers = { 'CONTENT_TYPE' => 'application/json' }
+      post "/api/v1/users/#{user.id}/gardens/#{garden.id}/plants", headers: headers,
+                                                                         params: JSON.generate(plant_api_info)
+      expect(response).to_not be_successful
+    end
+
+    it 'can not update with invalid paramaters' do
+      id = plants[0].id
+      previous_name = plants[0].name
+      plant_params = '{"name": "" }'
+      headers = { 'CONTENT_TYPE' => 'application/json' }
+
+      patch "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants/#{id}", headers: headers,
+                                                                                params: JSON.generate(plant_params)
+      expect(response).to_not be_successful
+      expect(status).to eq(422)
     end
   end
 end
