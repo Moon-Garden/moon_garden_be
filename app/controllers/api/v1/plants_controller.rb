@@ -15,9 +15,7 @@ class Api::V1::PlantsController < ApplicationController
 
   # POST /plants
   def create
-    @plant = Plant.new({ name: plant_params[:name],
-                         plant_id: plant_params[:plant_id],
-                         garden_id: params[:garden_id] })
+    @plant = Plant.new(plant_params)
 
     if @plant.save
       render json: PlantSerializer.new(@plant)
@@ -49,6 +47,11 @@ class Api::V1::PlantsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def plant_params
-    JSON.parse(params['_json'], symbolize_names: true)
+    a = JSON.parse(params['_json'], symbolize_names: true)
+    a.delete(:user_id)
+    a
+
+    # .permit(:name, :plant_id, :date_planted, :moon_phase,
+    # :date_matured, :bounty_amount, :pruning_behaviors, :notes, :garden_id)
   end
 end

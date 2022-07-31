@@ -51,7 +51,10 @@ RSpec.describe 'Plants API' do
     end
 
     it 'can create a new plant' do
-      plant_api_info = "{\"name\":\"Basil\",\"plant_id\":\"awehfh9832y5r334hi\"}"
+      user = create(:user, id: 1)
+      garden = create(:garden, user_id: user.id, id: 1)
+
+      plant_api_info = '{"user_id":"1","garden_id":"1","name":"Carrot","plant_id":"sae2340987dage"}'
 
       headers = { 'CONTENT_TYPE' => 'application/json' }
       post "/api/v1/users/#{user_1.id}/gardens/#{gardens[0].id}/plants", headers: headers,
@@ -60,8 +63,8 @@ RSpec.describe 'Plants API' do
       created_plant = Plant.last
 
       expect(response).to be_successful
-      expect(created_plant.name).to eq('Basil')
-      expect(created_plant.plant_id).to eq('awehfh9832y5r334hi')
+      expect(created_plant.name).to eq('Carrot')
+      expect(created_plant.plant_id).to eq('sae2340987dage')
     end
 
     it 'can update an existing plant' do
