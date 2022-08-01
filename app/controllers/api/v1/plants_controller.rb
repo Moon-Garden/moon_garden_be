@@ -3,9 +3,8 @@ class Api::V1::PlantsController < ApplicationController
 
   # GET /plants
   def index
-    @plants = Plant.all
-
-    render json: PlantSerializer.new(@plants)
+    garden = Garden.find(params[:garden_id])
+    render json: PlantSerializer.new(garden.plants)
   end
 
   # GET /plants/1
