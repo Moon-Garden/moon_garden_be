@@ -1,6 +1,4 @@
-![[Moon Garden-logos_white.png]]
 
----
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/Moon-Garden/moon_garden_be/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/Moon-Garden/moon_garden_be/tree/main)  
 
 If this is green then the API is in good shape. 
