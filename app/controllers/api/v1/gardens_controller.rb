@@ -9,7 +9,7 @@ class Api::V1::GardensController < ApplicationController
 
   # GET /gardens/1
   def show
-    if Garden.exists?(params[:id])
+    if Garden.exists?(params[:id]) && Garden.find(params[:id]).user.id == params[:user_id].to_i
       render json: GardenSerializer.new(Garden.find(params[:id]))
     else
       render status: 404
