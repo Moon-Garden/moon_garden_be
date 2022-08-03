@@ -11,7 +11,7 @@ If this is green then the API is in good shape.
 - Base URL:     `https://moon-garden-be.herokuapp.com`
 
 
-- A. ailable Endpoints:
+- Available Endpoints:
 	- [User Endpoints](#USER)
 	- [Garden Endpoints](#GARDEN)
 	- [Plant Endpoints](#PLANT)
