@@ -229,7 +229,7 @@ RESPONSE:
 No Response
 ```
 ---
-**Garden Update
+**Garden Update**
 
 - This endpoint updates a particular garden
 	
