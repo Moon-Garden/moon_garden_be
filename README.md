@@ -456,6 +456,13 @@ RESPONSE:
 
 # Feel like contributing??
 
+
+
+<img src="https://user-images.githubusercontent.com/85247765/182939845-58e20d6b-c710-4fc5-8ea3-c4345f38025d.png" width="600" height="300">
+Note: "plant_id" in the plant table is referencing the id from an outside api.
+
+
+
 ## Installation
 
 1. Clone this directory to your local repository using the SSH key:
