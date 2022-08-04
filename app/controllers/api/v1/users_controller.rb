@@ -1,8 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-  def index
-    render json: 'HI'
-  end
-
   def find_or_create_user
     render json: UserSerializer.new(User.google_user(params))
   end
