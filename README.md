@@ -79,7 +79,7 @@ RESPONSE:
 ---
 
 
-**Find User **
+**Find User**
 
 - This endpoint finds an existing user, based on user id
 
@@ -213,7 +213,7 @@ RESPONSE:
 }
 ```
 ---
-**Garden Destroy
+**Garden Destroy**
 
 - This endpoint destroys a particular garden
 	
@@ -316,7 +316,7 @@ RESPONSE:
 ---
 
 
-Garden Plants
+**Garden Plants**
 
 - This endpoint returns all the plants for a garden
 	
