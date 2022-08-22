@@ -469,7 +469,7 @@ Note: "plant_id" in the plant table is referencing the id from an outside api.
 
 ```
 
-$ git clone git@github.com:Bone-TM/bone_FE.git
+$ git clone git@github.com:Moon-Garden/moon_garden_be.git
 
 ```
 
